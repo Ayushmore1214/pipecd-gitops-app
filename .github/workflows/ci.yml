@@ -34,14 +34,13 @@ jobs:
           git config --global user.email "ayushmore1214@gmail.com"
           git config --global user.name "Ayush More"
           
-          # Clone the Config Repo
+          # Clone using the PAT for authentication
           git clone https://x-access-token:${GH_PAT}@github.com/Ayushmore1214/pipecd-gitops-config.git
           cd pipecd-gitops-config
           
-          # Update the image tag in the K8s manifest
-          # (Assumes your deployment is in kubernetes/base/deployment.yaml)
+          # Update the manifest (This assumes you have kubernetes/base/deployment.yaml in Repo 2)
           sed -i "s|image: ayush12141/pipecd-demo:.*|image: ayush12141/pipecd-demo:${{ github.sha }}|g" kubernetes/base/deployment.yaml
           
           git add .
-          git commit -m "feat: update image tag to ${{ github.sha }} [skip ci]"
+          git commit -m "feat: update demo-app image to ${{ github.sha }} [skip ci]"
           git push
